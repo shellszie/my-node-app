@@ -32,6 +32,23 @@ app.get('/googlebooks', async (req, res) => {
       } 
 });
 
+app.get('/previewExists', async (req, res) => {
+    let isbn = req.query.isbn;
+  try {
+    await axios.get(`https://books.google.com/books?jscmd=viewapi&bibkeys=ISBN:${isbn}`)
+      .then(response => {
+        if (response.data.includes("noview")) {
+            return res.send(false);
+        }
+        else {
+            return res.send(true);
+        }
+      })
+      } catch (error) {
+        console.error(error.message);
+      }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
