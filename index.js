@@ -26,6 +26,7 @@ app.get('/api', (req, res) => {
 app.get('/googlebooks', async (req, res) => {
     let search = req.query.searchTerm;
     try {
+        console.log("api key = " + api_key);
         let response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${api_key}&maxResults=40`);
         res.send(response.data);
     }
