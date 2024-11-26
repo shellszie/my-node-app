@@ -9,14 +9,12 @@ const PORT = process.env.PORT || 5000;
 const api_key = process.env.GOOGLE_BOOKS_API_KEY;
 
 const corsOptions = {
-    origin: 'https://protected-island-42169-af68303f7729.herokuapp.com/', // Allow requests only from this domain
-    methods: 'GET,POST,PUT,DELETE', // Allowed methods
-    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
 };
 
-app.use(cors(corsOptions)); // Use customized CORS options
-
-// app.use(cors());  // Allow all domains, or specify the origin if you want to limit access
+app.use(cors(corsOptions));
 
 // Define a route for the root URL
 app.get('/api', (req, res) => {
@@ -28,11 +26,10 @@ app.get('/api', (req, res) => {
 app.get('/googlebooks', async (req, res) => {
     let search = req.query.searchTerm;
     try {
-        await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${api_key}&maxResults=40`)
-            .then(response => {
-                return res.send(response.data);
-            })
-    } catch (error) {
+        let response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${api_key}&maxResults=40`);
+        res.send(response.data);
+    }
+    catch (error) {
         console.error(error.message);
     }
 });
