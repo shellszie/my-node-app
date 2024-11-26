@@ -1,15 +1,22 @@
 require('dotenv').config();
 const axios = require('axios');
-// Import the express module
 const express = require('express');
+const cors = require('cors');
 
-// Initialize an Express app
 const app = express();
 const PORT = process.env.PORT || 5000;
-const cors = require('cors');
+
 const api_key = process.env.GOOGLE_BOOKS_API_KEY;
 
-app.use(cors());  // Allow all domains, or specify the origin if you want to limit access
+const corsOptions = {
+    origin: 'https://protected-island-42169-af68303f7729.herokuapp.com/', // Allow requests only from this domain
+    methods: 'GET,POST,PUT,DELETE', // Allowed methods
+    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+};
+
+app.use(cors(corsOptions)); // Use customized CORS options
+
+// app.use(cors());  // Allow all domains, or specify the origin if you want to limit access
 
 // Define a route for the root URL
 app.get('/api', (req, res) => {
