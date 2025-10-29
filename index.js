@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000;
 const api_key = process.env.GOOGLE_BOOKS_API_KEY;
 
 const corsOptions = {
-    origin: ['*', 'https://protected-island-42169-af68303f7729.herokuapp.com/'],
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
 };
