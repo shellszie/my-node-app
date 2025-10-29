@@ -15,6 +15,8 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
+
 
 // Define a route for the root URL
 app.get('/api', (req, res) => {
@@ -27,10 +29,11 @@ app.get('/googlebooks', async (req, res) => {
     let search = req.query.searchTerm;
     try {
         let response = await axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}&key=${api_key}&maxResults=40`);
-        res.send(response.data);
+        res.json(response.data);
     }
     catch (error) {
         console.error(error.message);
+        res.status(500).json({ error: 'Failed to fetch data from Google Books' });
     }
 });
 
